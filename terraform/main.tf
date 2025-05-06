@@ -15,9 +15,10 @@ resource "aws_s3_bucket_ownership_controls" "ownership" {
   bucket = aws_s3_bucket.static_site.id
 
   rule {
-    object_ownership = "BucketOwnerPreferred"
+    object_ownership = "BucketOwnerEnforced" 
   }
 }
+
 
 resource "aws_s3_bucket_public_access_block" "public_access" {
   bucket                  = aws_s3_bucket.static_site.id
