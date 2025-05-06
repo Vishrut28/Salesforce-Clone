@@ -3,11 +3,19 @@ provider "aws" {
 }
 
 resource "aws_s3_bucket" "static_site" {
-  bucket = "salesforce-clone-vishrut-2025"
+  bucket = "salesforce-clone-vishrut"
+  acl    = null
+}
 
-  website {
-    index_document = "index.html"
-    error_document = "index.html"
+resource "aws_s3_bucket_website_configuration" "static_site_website" {
+  bucket = aws_s3_bucket.static_site.id
+
+  index_document {
+    suffix = "index.html"
+  }
+
+  error_document {
+    key = "index.html"
   }
 }
 
@@ -15,10 +23,9 @@ resource "aws_s3_bucket_ownership_controls" "ownership" {
   bucket = aws_s3_bucket.static_site.id
 
   rule {
-    object_ownership = "BucketOwnerEnforced" 
+    object_ownership = "BucketOwnerEnforced"
   }
 }
-
 
 resource "aws_s3_bucket_public_access_block" "public_access" {
   bucket                  = aws_s3_bucket.static_site.id
@@ -46,5 +53,5 @@ resource "aws_s3_bucket_policy" "public_policy" {
 }
 
 output "website_url" {
-  value = aws_s3_bucket.static_site.website_endpoint
+  value = aws_s3_bucket_website_configuration.static_site_website.website_endpoint
 }
