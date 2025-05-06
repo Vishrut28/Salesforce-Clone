@@ -8,13 +8,13 @@ pipeline {
     }
     stage('Build Docker Image') {
       steps {
-        sh 'docker build -t feedback-app .'
+        sh 'docker build -t salesforce-clone .'
       }
     }
     stage('Run Docker Container') {
       steps {
-        sh 'docker rm -f feedback-app || true'
-        sh 'docker run -d -p 3000:3000 --name feedback-app feedback-app'
+        sh 'docker rm -f salesforce-clone || true'
+        sh 'docker run -d -p 3000:80 --name salesforce-clone salesforce-clone'
       }
     }
   }
